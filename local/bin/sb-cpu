@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+get_cpu_usage() {
+    local cpu_total_prev=0
+    local cpu_idle_prev=0
+    local cpu_total=0
+    local cpu_idle=0
+
+    # Read CPU usage from /proc/stat
+    read cpu user nice system idle iowait irq softirq steal guest guest_nice < /proc/stat
+    cpu_total=$((user + nice + system + idle + iowait + irq + softirq + steal))
+    cpu_idle=$idle
+
+    if [[ -n "$cpu_total_prev" && -n "$cpu_idle_prev" ]]; then
+        local cpu_total_diff=$((cpu_total - cpu_total_prev))
+        local cpu_idle_diff=$((cpu_idle - cpu_idle_prev))
+        local cpu_usage=$((100 * (cpu_total_diff - cpu_idle_diff) / cpu_total_diff))
+        echo "$cpu_usage"
+    fi
+
+    cpu_total_prev=$cpu_total
+    cpu_idle_prev=$cpu_idle
+}
+
+color_cpu="^c#fabd2f^"  # Yellow from Gruvbox bright (CPU color)
+cpu_usage=$(get_cpu_usage)
+icon=" "
+echo " $color_cpu$icon $cpu_usage%^d^"

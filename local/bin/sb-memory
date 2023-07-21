@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+
+color="^c#fe8019^"  # Orange from Gruvbox bright (Memory color)
+memory_percentage=$(free | awk '/^Mem/ {printf "%.1f", ($3/$2) * 100}')
+icon=""
+echo "$color$icon $memory_percentage%^d^"

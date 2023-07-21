@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+
+# Function to get the current audio percentage and mute status of the default audio sink (output device) using PulseAudio
+get_audio_info() {
+    local audio_info=$(pactl list sinks | awk '/^\s+Volume:/ {print $5; exit}')
+    local mute_info=$(pactl list sinks | awk '/^\s+Mute:/ {print $2; exit}')
+    echo "$audio_info $mute_info"
+}
+
+# Function to determine the appropriate audio icon based on the audio percentage
+get_audio_icon() {
+    local audio_percentage=$1
+
+    audio_percentage=${audio_percentage%?}
+
+    if [ "$audio_percentage" -eq 0 ]; then
+        echo "" # Mute icon
+    elif [ "$audio_percentage" -lt 50 ]; then
+        echo "" # Low volume icon
+    else
+        echo "  " # High volume icon
+    fi
+}
+
+# Function to output the audio information with cyan foreground color and appropriate audio icon in status2d format
+print_audio_info() {
+    local color_audio="^c#8ec07c^"  # Cyan from Gruvbox bright (Audio color)
+    local audio_info=$(get_audio_info)
+    local audio_percentage=$(echo "$audio_info" | awk '{print $1}')
+    local mute_status=$(echo "$audio_info" | awk '{print $2}')
+
+    local audio_icon
+    if [ "$mute_status" = "yes" ]; then
+        audio_icon="" # Mute icon
+    else
+        audio_icon=$(get_audio_icon "$audio_percentage")
+    fi
+
+    echo "$color_audio$audio_icon   ${audio_percentage}^d^"
+}
+
+audio=$(print_audio_info)
+echo $audio

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+check_network_connectivity() {
+    local interface="enp0s31f6" # Replace with your network interface name
+
+    # Check if the interface has an active link (network connected)
+    if [[ -d "/sys/class/net/$interface" && -f "/sys/class/net/$interface/carrier" ]]; then
+        local link_status=$(cat "/sys/class/net/$interface/carrier")
+        if [[ "$link_status" -eq 1 ]]; then
+            echo "Connected"
+            return
+        fi
+    fi
+
+    echo "Disconnected"
+}
+
+# Function to get the network name (Wi-Fi) using iwconfig
+get_network_name() {
+    local wifi_interface="enp0s31f6" # Replace with your Wi-Fi interface name
+
+    # Check if the Wi-Fi interface is available
+    if iwconfig "$wifi_interface" &> /dev/null; then
+        # Extract the ESSID (network name) using awk
+        local network_name=$(iwconfig "$wifi_interface" | awk -F '"' '/ESSID/ {print $2}')
+        echo "$network_name"
+    else
+        echo "N/A"
+    fi
+}
+
+purple_color="^c#800080^" # Purple color
+
+connectivity_status=$(check_network_connectivity)
+
+    # Get the network name
+network_name=$(get_network_name)
+purple_color="^c#800080^" # Purple color
+arrow="" # Arrow icon
+echo "$purple_color$arrow $connectivity_status $network_name^d^"

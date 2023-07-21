@@ -1,0 +1,10 @@
+#!/usr/bin/sh
+print_time() {
+	local color_fg="^c#B8BB26^"  # Green from Gruvbox dark
+	local time=$(date "+%H:%M")
+	local icon=""             # Default clock icon
+	echo "$color_fg$icon $time^d^"
+}
+
+time=$(print_time)
+echo "$time"

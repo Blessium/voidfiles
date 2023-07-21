@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+color="^c#83A598^"
+date=$(date "+%a, %d %b %Y")
+icon=" "
+echo "$color$icon $date^d^ "
