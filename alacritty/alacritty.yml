@@ -4,6 +4,7 @@
     - ~/.config/alacritty/themes/gruvbox_dark.yaml
 
   window:
+    opacity: 0.8
     padding:
       x: 14
       y: 14
