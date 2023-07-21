@@ -1,0 +1,14 @@
+configuration {
+    show-icons: true;
+    font: "VictorMono Nerd Font Propo SemiBold 13";
+    icon-theme: "Gruvbox-Material-Dark";
+    modes: "window,drun";
+
+    /* display-ssh:    " ssh:"; */
+    /* display-run:    " run:"; */
+    display-drun:   " drun:";
+    display-window: " window:";
+    display-combi:  " combi:";
+    display-filebrowser: " filebrowser:";
+}
+@theme "~/.config/rofi/gruvbox-dark.rasi"
