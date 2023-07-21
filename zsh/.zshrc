@@ -1,4 +1,5 @@
-export PATH="$HOME/.local/bin/statusbar/":$PATH
+export PATH="$PATH:$HOME/go/bin/"
+export PATH="$PATH:$HOME/.local/bin/statusbar/"
 export ZSH="$HOME/.oh-my-zsh"
 
 export XDG_USER_CONFIG_DIR="$HOME/.config"
